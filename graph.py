@@ -16,19 +16,17 @@ def superformula(n, a, phi):
    else:
       return (r * np.cos(phi), r * np.sin(phi))
 
-a = [34, 65]
-n = [321, 66, 88, 54]
+n = [212, 46, 83, 34]
+a = [34, 64]
 phi = np.arange(0,6.28,step=.01)
 
 data = superformula(n, a, phi)
-
 # the 3rd parameter sets the styling the points
 plt.plot(data[0],data[1], 'c')
 
 # we need to ignore these images on git
 #plt.savefig('out.png', bbox_inches='tight', pad_inches=0)
 
-print(data)
 plt.show()
 
 # Implementation directly from Wikipedia
