@@ -14,10 +14,12 @@
     </style>
     <script src="../static/d3/d3.js"></script>
     <script src="../static/jquery-2.1.4.js"></script>
+    {#Used to verify where script is placed (allows us to move script location without breaking jQuery code#}
     <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 </head>
 <body>
     <input type="text" name="name" placeholder="Enter First Name">
+    {#UpDateGraph.js runs on submit#}
     <a href="#" id=submit>Submit</a>
     <script src="../static/SuperFormula.js"></script><br/>
     <script src="../static/Graph.js"></script>
