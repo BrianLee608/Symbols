@@ -48,8 +48,22 @@ circles
 var lineSVG = d3.select("body").append("svg").attr("width", w).attr("height", h);
 var lineGen = d3.svg.line().x(function(d){return xScale(d[0])}).y(function(d){return yScale(d[1])})
 
-lineSVG.append('svg:path')
-  .attr('d', lineGen(dataset))
-  .attr('stroke', 'black')
-  .attr('stroke-width', 2)
-  .attr('fill', 'purple');
+var path = lineSVG.append('svg:path')
+    .attr('d', lineGen(dataset))
+    .attr('stroke', 'black')
+    .attr('stroke-width', 3)
+    .attr('fill', 'none')
+
+var color = 'purple'
+var length = path.node().getTotalLength();
+//Animate line
+path
+  .attr("stroke-dasharray", length + " " + length)
+  .attr("stroke-dashoffset", length)
+  .transition()
+    .duration(2000)
+    .ease("linear")
+    .attr("stroke-dashoffset", 0)
+    .attr('fill', color.toString())
+
+

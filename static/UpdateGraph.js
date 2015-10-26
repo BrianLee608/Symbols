@@ -38,11 +38,22 @@ $(function() {
                 .attr("cx", function(d){return xScale(d[0]);})
                 .attr("cy", function(d){return yScale(d[1]);})
                 .attr("r", 3)
-            lineSVG.selectAll("path")
+            path = lineSVG.selectAll("path")
                 .attr('d', lineGen(dataset))
                 .attr('stroke', 'black')
-                .attr('stroke-width', 2)
-                .attr('fill', data.color.toString());
+                .attr('stroke-width', 3)
+                .attr('fill', color.toString());
+            color = data.color
+            length = path.node().getTotalLength();
+            //Animate line
+            path
+              .attr("stroke-dasharray", length + " " + length)
+              .attr("stroke-dashoffset", length)
+              .transition()
+                .duration(2000)
+                .ease("linear")
+                .attr("stroke-dashoffset", 0)
+                .attr('fill', color.toString())
         });
         //If server response is unsuccessful, return false (nothing happens to HTML)
         return false;
