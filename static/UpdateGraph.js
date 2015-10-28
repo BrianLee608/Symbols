@@ -1,13 +1,20 @@
 //jQuery function - AJAX
-$(function() {
-    $('a#submit').bind('click', function(){
+function UpdateGraph() {
         //AJAX wrapper, sends input box as variable name to url /update_graph on server (Python) side
         $.getJSON($SCRIPT_ROOT + "/update_graph", {
-            name: $('input[name="name"]').val()},
+            //firstname: $('input[name="firstname"]').val(),
+            //lastname: $('input[name="lastname"]').val()},
+            n1: $('input[name="n1"]').val(),
+            n2: $('input[name="n2"]').val(),
+            n3: $('input[name="n3"]').val(),
+            n4: $('input[name="n4"]').val(),
+            a1: $('input[name="a1"]').val(),
+            a2: $('input[name="a2"]').val()},
+
             //If Python server-side correctly sends a response, function below is used to update SVG graph
             function(data){
-            n = [data.n1, 4, 8, 4];
-            a = [4, 5];
+            n = [data.n1, data.n2, data.n3, data.n4];
+            a = [data.a1, data.a2];
             points = 10000;
 
             phi = [];
@@ -34,17 +41,20 @@ $(function() {
             //Everything above is the same as Graph.js, just updating with new dataset
             //Only difference is that instead APPENDING a new SVG, we simply select the one we already created
             //and change it's attributes
+            path = lineSVG.selectAll("path")
+                .attr('d', lineGen(dataset))
+                .attr('stroke', "black")
+                .attr('stroke-width', 3)
+                .attr('fill', color.toString());
+            //Color change occurs after initial set-up (allows for transition effect)
+            color = data.color;
+            length = path.node().getTotalLength();
+
             scatterSVG.selectAll("circle").data(dataset)
                 .attr("cx", function(d){return xScale(d[0]);})
                 .attr("cy", function(d){return yScale(d[1]);})
                 .attr("r", 3)
-            path = lineSVG.selectAll("path")
-                .attr('d', lineGen(dataset))
-                .attr('stroke', 'black')
-                .attr('stroke-width', 3)
-                .attr('fill', color.toString());
-            color = data.color
-            length = path.node().getTotalLength();
+                .attr("fill", color.toString())
             //Animate line
             path
               .attr("stroke-dasharray", length + " " + length)
@@ -57,5 +67,4 @@ $(function() {
         });
         //If server response is unsuccessful, return false (nothing happens to HTML)
         return false;
-    })
-  });
+  };
